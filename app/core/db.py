@@ -12,7 +12,8 @@ def get_session():
         try:
             yield session
         except Exception as e:
-            print(f"Error: {e}")
+            session.rollback()
             session.close()
+            raise e
 
 engine = create_engine(settings.DATABASE_URL, connect_args=connect_args, echo=False)
